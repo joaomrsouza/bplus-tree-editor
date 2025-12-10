@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+
+  height: 100dvh;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-bottom: 1rem;
+}
+
+input,
+select,
+button {
+  padding: 0.25rem;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  font-size: large;
+  background-color: #fff;
+}
+
+button {
+  cursor: pointer;
+}
+
+.tree-container {
+  background-color: #efefef;
+
+  position: relative;
+
+  margin: 0 1rem;
+
+  width: calc(100% - 2rem);
+  height: 100%;
+}
+
+.zoom-actions {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+}
+
+.zoom-actions button {
+  width: 30px;
+  height: 30px;
+
+  font-weight: bold;
+}
+
+.zoom-actions button:first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+
+.zoom-actions button:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.zoom-actions button:not(:last-child):not(:first-child) {
+  border-radius: 0;
+  border-bottom: none;
+}
+
+.tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+
+  padding: 50px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.tree div {
+  text-align: center;
+}
+
+.tree-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tree .tree-row {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  justify-content: center;
+
+  border: none;
+
+  width: 100%;
+}
+
+.tree .tree-row:last-child {
+  padding-bottom: 15px;
+}
+
+.tree .tree-node {
+  display: flex;
+  flex-direction: row;
+
+  width: fit-content;
+}
+
+.tree .tree-kp {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+
+  width: fit-content;
+}
+
+.tree .tree-kp:not(:last-child) {
+  border-right: none;
+}
+
+.tree .tree-key {
+  width: fit-content;
+  padding: 5px;
+}
+
+.tree .tree-pointer {
+  border: 1px solid black;
+  border-right: none;
+  width: 15px;
+}
+
+.tree .tree-kp .tree-pointer {
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+
+#controls {
+  display: flex;
+  padding: 1rem;
+
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+#controls > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#controls > div > div {
+  display: grid;
+}
+
+#controls > div:first-child > div:first-child {
+  grid-template-columns: 4fr 4fr 1fr 1fr;
+}
+
+#controls > div:first-child > div:last-child {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+#controls > div:last-child > div:first-child {
+  grid-template-columns: 1fr 2fr;
+}
+
+#controls > div:last-child > div:last-child {
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+}
+
+#controls > div > div > * {
+  margin-right: 0.25rem;
+}

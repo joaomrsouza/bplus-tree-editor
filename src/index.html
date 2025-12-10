@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>B+Tree Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./index.css" />
+  </head>
+  <body>
+    <header>
+      <h1>B+Tree Editor</h1>
+      <hr />
+      <div id="controls">
+        <div>
+          <div>
+            <input type="text" placeholder="Insira um valor..." />
+            <button>Consultar</button>
+            <button><-</button>
+            <button>-></button>
+          </div>
+          <div>
+            <input type="text" placeholder="Min..." />
+            <input type="text" placeholder="Max..." />
+            <button>Inserir</button>
+            <button>Deletar</button>
+            <button>Limpar</button>
+          </div>
+        </div>
+        <div>
+          <div>
+            <input type="text" placeholder="Fanout..." />
+            <select>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+          </div>
+          <div>
+            <button>Forçar Alteração</button>
+            <button>+</button>
+            <button>-</button>
+            <button>Fork Tree</button>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </header>
+
+    <main>
+      <div class="tree-container">
+        <div class="tree">
+          <svg class="tree-svg"></svg>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zoom-actions">
+          <button class="zoom-plus">+</button>
+          <button class="zoom-reset">=</button>
+          <button class="zoom-minus">-</button>
+        </div>
+      </div>
+      <div class="tree-container">
+        <div class="tree">
+          <svg class="tree-svg"></svg>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zoom-actions">
+          <button class="zoom-plus">+</button>
+          <button class="zoom-reset">=</button>
+          <button class="zoom-minus">-</button>
+        </div>
+      </div>
+      <div class="tree-container">
+        <div class="tree">
+          <svg class="tree-svg"></svg>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zoom-actions">
+          <button class="zoom-plus">+</button>
+          <button class="zoom-reset">=</button>
+          <button class="zoom-minus">-</button>
+        </div>
+      </div>
+      <div class="tree-container">
+        <div class="tree">
+          <svg class="tree-svg"></svg>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">1</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">2</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-row">
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-pointer"></div>
+              <div class="tree-kp">
+                <div class="tree-key">4</div>
+                <div class="tree-pointer"></div>
+              </div>
+              <div class="tree-kp">
+                <div class="tree-key">5</div>
+                <div class="tree-pointer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zoom-actions">
+          <button class="zoom-plus">+</button>
+          <button class="zoom-reset">=</button>
+          <button class="zoom-minus">-</button>
+        </div>
+      </div>
+    </main>
+    <script src="./scripts/lib/panzoom.js"></script>
+    <script src="./scripts/panzoom-setup.js"></script>
+    <script src="./scripts/svg.js"></script>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
