@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --current-mode-color: hsl(120, 100%, 90%);
+  --fira-code: "Fira Code", monospace;
+}
+
+body:has(#mode-manual:checked) {
+  --current-mode-color: hsl(120, 100%, 90%);
+}
+
+body:has(#mode-random:checked) {
+  --current-mode-color: hsl(240, 100%, 90%);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -27,12 +42,14 @@ h1 {
   padding: 10px 0;
 }
 
-main {
+main,
+section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
 
   margin-bottom: 1rem;
+  max-width: 100dvw;
 }
 
 input,
@@ -45,8 +62,90 @@ button {
   background-color: #fff;
 }
 
+select {
+  width: 100%;
+}
+
 button {
   cursor: pointer;
+}
+
+.flex {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.flex.col {
+  flex-direction: column;
+}
+
+.flex.row {
+  flex-direction: row;
+}
+
+.flex.justify-around {
+  justify-content: space-around;
+}
+
+.flex.justify-bottom {
+  justify-content: flex-end;
+}
+
+.vr {
+  width: 1px;
+  background-color: #333;
+}
+
+.relative {
+  position: relative;
+}
+
+.disabler-container {
+  background-color: rgba(80, 80, 80, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  background-color: hsl(0, 100%, 90%);
+}
+
+
+.manual-mode {
+  background-color: hsl(120, 100%, 90%);
+}
+
+.random-mode {
+  background-color: hsl(240, 100%, 90%);
+}
+
+.current-mode {
+  background-color: var(--current-mode-color);
+}
+
+.auto-play-mode {
+  background-color: hsl(44, 100%, 90%);
+}
+
+.step-by-step-mode {
+  background-color: hsl(270, 100%, 90%);
 }
 
 .tree-container {
@@ -57,7 +156,7 @@ button {
   margin: 0 1rem;
 
   width: calc(100% - 2rem);
-  height: 100%;
+  height: 80dvh;
 }
 
 .zoom-actions {
@@ -98,11 +197,10 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
 
   padding: 50px;
 
-  width: 100%;
+  width: fit-content;
   height: 100%;
 }
 
@@ -115,7 +213,6 @@ button {
   top: 0;
   left: 0;
   z-index: -1;
-  width: 100%;
   height: 100%;
   pointer-events: none;
 }
@@ -128,18 +225,19 @@ button {
 
   border: none;
 
-  width: 100%;
+  /* width: 100%; */
 }
 
-.tree .tree-row:last-child {
-  padding-bottom: 15px;
-}
 
 .tree .tree-node {
   display: flex;
   flex-direction: row;
 
   width: fit-content;
+}
+
+.tree .tree-node.highlight {
+  background-color: rgba(21, 255, 0, 0.2);
 }
 
 .tree .tree-kp {
@@ -176,35 +274,77 @@ button {
   padding: 1rem;
 
   gap: 1rem;
-  justify-content: space-between;
+  align-content: stretch;
 }
 
-#controls > div {
+#controls input.manual-mode {
+  width: 100%;
+}
+
+#controls input[type="number"]:not(.manual-mode) {
+  width: 100px;
+}
+
+#controls button {
+  min-width: 100px;
+}
+
+#controls button.icon,
+.history-entry button.icon {
+  min-width: 50px;
+  font-family: var(--fira-code);
+}
+
+#controls .radio-container {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  height: 31.3333px;
+  align-items: center;
+}
+
+#controls .radio-container label {
+  width: fit-content;
+}
+
+#history-container {
+  width: 300px;
+  height: 80dvh;
+
+  background-color: #efefef;
+  padding: 1rem;
+
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  font-size: small;
+
+  overflow-y: auto;
 }
 
-#controls > div > div {
-  display: grid;
+#history-container .history-entry {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
 }
 
-#controls > div:first-child > div:first-child {
-  grid-template-columns: 4fr 4fr 1fr 1fr;
+#history-container .history-entry.disabled {
+  opacity: 0.5;
 }
 
-#controls > div:first-child > div:last-child {
-  grid-template-columns: repeat(5, 1fr);
+#history-container .history-entry button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-#controls > div:last-child > div:first-child {
-  grid-template-columns: 1fr 2fr;
-}
-
-#controls > div:last-child > div:last-child {
-  grid-template-columns: 2fr 1fr 1fr 2fr;
-}
-
-#controls > div > div > * {
-  margin-right: 0.25rem;
+#count-container {
+  padding: 0.25rem;
+  background-color: #dfdfdf;
 }

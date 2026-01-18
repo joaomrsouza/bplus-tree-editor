@@ -1,692 +1,146 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>B+Tree Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="./index.css" />
-  </head>
-  <body>
-    <header>
-      <h1>B+Tree Editor</h1>
-      <hr />
-      <div id="controls">
-        <div>
-          <div>
-            <input type="text" placeholder="Insira um valor..." />
-            <button>Consultar</button>
-            <button><-</button>
-            <button>-></button>
-          </div>
-          <div>
-            <input type="text" placeholder="Min..." />
-            <input type="text" placeholder="Max..." />
-            <button>Inserir</button>
-            <button>Deletar</button>
-            <button>Limpar</button>
-          </div>
-        </div>
-        <div>
-          <div>
-            <input type="text" placeholder="Fanout..." />
-            <select>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-          <div>
-            <button>Forçar Alteração</button>
-            <button>+</button>
-            <button>-</button>
-            <button>Fork Tree</button>
-          </div>
-        </div>
-      </div>
-      <hr />
-    </header>
 
-    <main>
-      <div class="tree-container">
-        <div class="tree">
-          <svg class="tree-svg"></svg>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="zoom-actions">
-          <button class="zoom-plus">+</button>
-          <button class="zoom-reset">=</button>
-          <button class="zoom-minus">-</button>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>B+Tree Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./index.css" />
+</head>
+
+<body>
+  <header>
+    <h1>B+Tree Editor</h1>
+    <hr />
+    <div id="controls">
+
+
+      <div class="flex col justify-around">
+        <label for="mode-manual" class="flex row radio-container manual-mode">
+          <input checked type="radio" name="insert-mode" id="mode-manual">
+          Manual
+        </label>
+        <label for="mode-random" class="flex row radio-container random-mode">
+          <input type="radio" name="insert-mode" id="mode-random">
+          Aleatório
+        </label>
+      </div>
+
+      <div class="flex col">
+        <input id="value-input" class="manual-mode" type="number" placeholder="Insira um valor..." />
+
+        <div class="flex row">
+          <input id="min-input" class="random-mode" type="number" step="1" placeholder="Min..." />
+          <input id="max-input" class="random-mode" type="number" step="1" placeholder="Max..." />
+          <input id="qtd-input" class="random-mode" type="number" min="1" step="1" placeholder="Qtd..." />
         </div>
       </div>
-      <div class="tree-container">
-        <div class="tree">
-          <svg class="tree-svg"></svg>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
+
+      <div class="flex row relative" style="gap: 1rem;">
+        <div class="disabler-container hidden">
+          Operação em andamento...
+        </div>
+
+        <div class="flex col justify-around">
+          <button id="search-btn" class="manual-mode">Buscar</button>
+
+          <div class="flex row justify-bottom">
+            <button id="insert-btn" class="current-mode">Inserir</button>
+            <button id="remove-btn" class="current-mode">Remover</button>
           </div>
         </div>
-        <div class="zoom-actions">
-          <button class="zoom-plus">+</button>
-          <button class="zoom-reset">=</button>
-          <button class="zoom-minus">-</button>
+
+        <button id="clear-btn" class="error">Limpar</button>
+      </div>
+
+      <div class="vr"></div>
+
+      <div class="flex col justify-around">
+        <label for="auto-play" class="flex row radio-container auto-play-mode">
+          <input checked type="radio" name="play-mode" id="auto-play">
+          Automático
+        </label>
+        <label for="step-by-step" class="flex row radio-container step-by-step-mode">
+          <input type="radio" name="play-mode" id="step-by-step">
+          Passo a passo
+        </label>
+      </div>
+
+
+      <div class="flex col justify-around">
+        <input id="speed-input" class="auto-play-mode" type="number" step="0.1" min="0.1" placeholder="Velocidade"
+          value="1" />
+        <div class="flex row">
+          <button id="step-btn" class="icon step-by-step-mode">=></button>
+          <button id="skip-btn" class="icon step-by-step-mode">>></button>
         </div>
       </div>
-      <div class="tree-container">
-        <div class="tree">
-          <svg class="tree-svg"></svg>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
+
+      <div class="vr"></div>
+
+      <div class="flex col relative">
+        <div class="disabler-container hidden">
+          Operação em andamento...
         </div>
-        <div class="zoom-actions">
-          <button class="zoom-plus">+</button>
-          <button class="zoom-reset">=</button>
-          <button class="zoom-minus">-</button>
+
+        <div class="flex row">
+          <select id="tree-type-select">
+            <option value="bp">B+</option>
+            <option value="b">B</option>
+          </select>
+          <select id="value-type-select">
+            <option value="number">Number</option>
+            <option value="string">String</option>
+          </select>
+        </div>
+        <div class="flex row">
+          <input id="fanout-input" type="number" min="3" placeholder="Fanout..." value="3" />
+          <button id="change-tree-btn">Alterar</button>
         </div>
       </div>
-      <div class="tree-container">
+
+      <div id="debug-container" class="flex row justify-around hidden">
+        <div class="vr"></div>
+
+        <button id="debug-plus-btn">+</button>
+        <button id="debug-btn">Debug</button>
+      </div>
+    </div>
+    <hr />
+    <div id="count-container">Leituras: 0 | Escritas: 0 | Valores: 0</div>
+    <hr />
+  </header>
+
+  <main>
+    <div class="tree-container">
+      <div class="pan">
         <div class="tree">
           <svg class="tree-svg"></svg>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">1</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">2</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-          <div class="tree-row">
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tree-pointer"></div>
-              <div class="tree-kp">
-                <div class="tree-key">4</div>
-                <div class="tree-pointer"></div>
-              </div>
-              <div class="tree-kp">
-                <div class="tree-key">5</div>
-                <div class="tree-pointer"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="zoom-actions">
-          <button class="zoom-plus">+</button>
-          <button class="zoom-reset">=</button>
-          <button class="zoom-minus">-</button>
         </div>
       </div>
-    </main>
-    <script src="./scripts/lib/panzoom.js"></script>
-    <script src="./scripts/panzoom-setup.js"></script>
-    <script src="./scripts/svg.js"></script>
-    <script src="./scripts/index.js"></script>
-  </body>
+      <div class="zoom-actions">
+        <button class="zoom-plus">+</button>
+        <button class="zoom-reset">=</button>
+        <button class="zoom-minus">-</button>
+      </div>
+    </div>
+    <div id="history-container">
+    </div>
+  </main>
+
+  </div>
+  <script src="./scripts/lib/panzoom.js"></script>
+  <script src="./scripts/panzoom-setup.js"></script>
+  <script src="./scripts/svg.js"></script>
+  <script src="./scripts/bp-tree.js"></script>
+  <script src="./scripts/tree-html.js"></script>
+  <script src="./scripts/animator.js"></script>
+  <script src="./scripts/history.js"></script>
+  <!-- <script src="./scripts/debug.js"></script> -->
+  <script src="./scripts/random.js"></script>
+  <script src="./scripts/bindings.js"></script>
+  <script src="./scripts/index.js"></script>
+</body>
+
 </html>

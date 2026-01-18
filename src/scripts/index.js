@@ -1,13 +1,4 @@
-function reset() {
-  panzooms.forEach((panzoom) => {
-    panzoom.reset({ animate: false });
-  });
-  drawTrees();
-}
+window.bpTree = createTree(3);
 
-const resizeObserver = new ResizeObserver(reset);
-resizeObserver.observe(document.querySelector("main"));
-
-window.addEventListener("resize", reset);
-
-reset();
+debugPlusNumber = 25;
+if (!!bootstrap && debugPlusNumber > 0) bootstrap(debugPlusNumber);
