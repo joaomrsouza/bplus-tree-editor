@@ -1,5 +1,5 @@
 async function randomInsert(qtd, min, max) {
-  const values = Array.from({ length: max - min }, (_, i) => i + min);
+  const values = Array.from({ length: max - min + 1 }, (_, i) => i + min);
 
   for (let i = 0; i < qtd; i++) {
     const randomIndex = Math.floor(Math.random() * values.length);
@@ -13,7 +13,9 @@ async function randomInsert(qtd, min, max) {
       color: "random",
     });
 
-    const gen = insert(window.bpTree, value);
+    const isBTree = window.bpTree.type === 'b';
+    const gen = isBTree ? insertB(window.bpTree, value) : insert(window.bpTree, value);
+    
     setAnimateGen(gen);
     await animate();
     while (!hasTheAnimationEnded()) await wait(100);
@@ -36,7 +38,9 @@ async function randomRemove(qtd) {
       color: "random",
     });
 
-    const gen = remove(window.bpTree, value);
+    const isBTree = window.bpTree.type === 'b';
+    const gen = isBTree ? removeB(window.bpTree, value) : remove(window.bpTree, value);
+    
     setAnimateGen(gen);
     await animate();
     while (!hasTheAnimationEnded()) await wait(100);

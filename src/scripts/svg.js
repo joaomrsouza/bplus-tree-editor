@@ -12,6 +12,155 @@ function getAnchor(element, position = "bottom") {
   }
 }
 
+const defaultPadding = 15;
+
+function createPath(svg, pathData) {
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", pathData.trim());
+  path.setAttribute("stroke", "black");
+  path.setAttribute("stroke-width", "2");
+  path.setAttribute("fill", "none");
+  svg.appendChild(path);
+}
+
+function createArrowHead(svg, x, y, padding) {
+  // Arrow head implementation if needed for generic arrows
+  // Note: drawBPlusLines implements its own specific arrow logic
+}
+
+
+function drawBPlusLines(nodes, nextNodes, isLeaf, scale, treeRect, getPos, svg) {
+  let pointerIndex = 0;
+  nodes.forEach((node, ni) => {
+    const pointers = Array.from(node.querySelectorAll(".tree-pointer"));
+
+    pointers.forEach((pointer, pi) => {
+      const nodeToPoint = nextNodes[pointerIndex];
+      pointerIndex++;
+
+      const isLastPointer = pi === pointers.length - 1;
+      const nextNode = nodes[ni + 1];
+      const shouldPointToNextNode = isLastPointer && isLeaf && nextNode;
+      const shouldPointToNull = isLastPointer && isLeaf && !nextNode;
+
+      const pointerAnchor = getAnchor(
+        pointer,
+        shouldPointToNextNode ? "right" : "bottom",
+      );
+      
+      const nodeAnchor = nodeToPoint
+        ? getAnchor(nodeToPoint, "top")
+        : shouldPointToNextNode
+          ? getAnchor(nextNode, "left")
+          : {
+              x: pointerAnchor.x,
+              y: pointerAnchor.y + 15 * scale,
+            };
+
+      let pathData = `
+        M ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y}
+        L ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y + defaultPadding}
+        L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y - defaultPadding}
+        L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y}
+      `;
+
+      if (shouldPointToNextNode) {
+        pathData = `
+          M ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y}
+          L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y}
+        `;
+      }
+
+      createPath(svg, pathData);
+
+      // Arrow lines logic
+      const arrowLine1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      arrowLine1.setAttribute("x1", getPos(nodeAnchor).x);
+      arrowLine1.setAttribute("y1", getPos(nodeAnchor).y);
+      
+      let al1x2 = getPos(nodeAnchor).x + defaultPadding / 2;
+      let al1y2 = getPos(nodeAnchor).y - defaultPadding / 2;
+      
+      if (shouldPointToNextNode) {
+        al1x2 = getPos(nodeAnchor).x - defaultPadding / 2;
+        al1y2 = getPos(nodeAnchor).y + defaultPadding / 2;
+      }
+      if (shouldPointToNull) al1y2 = getPos(nodeAnchor).y; // Point to null/down
+      
+      arrowLine1.setAttribute("x2", al1x2);
+      arrowLine1.setAttribute("y2", al1y2);
+      arrowLine1.setAttribute("stroke", "black");
+      arrowLine1.setAttribute("stroke-width", "2");
+      svg.appendChild(arrowLine1);
+      
+      const arrowLine2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      arrowLine2.setAttribute("x1", getPos(nodeAnchor).x);
+      arrowLine2.setAttribute("y1", getPos(nodeAnchor).y);
+      
+      let al2x2 = getPos(nodeAnchor).x - defaultPadding / 2;
+      let al2y2 = getPos(nodeAnchor).y - defaultPadding / 2;
+      
+       if (shouldPointToNull) al2y2 = getPos(nodeAnchor).y;
+
+      arrowLine2.setAttribute("x2", al2x2);
+      arrowLine2.setAttribute("y2", al2y2);
+      arrowLine2.setAttribute("stroke", "black");
+      arrowLine2.setAttribute("stroke-width", "2");
+      svg.appendChild(arrowLine2);
+      
+    });
+  });
+}
+
+function drawBLines(nodes, nextNodes, isLeaf, scale, treeRect, getPos, svg) {
+  let pointerIndex = 0;
+  nodes.forEach((node, ni) => {
+    const pointers = Array.from(node.querySelectorAll(".tree-pointer"));
+
+    pointers.forEach((pointer, pi) => {
+      const nodeToPoint = nextNodes[pointerIndex];
+      pointerIndex++;
+      
+      // Na Arvore B, não há ponteiros entre folhas
+      if (isLeaf) return;
+
+      if (!nodeToPoint) return;
+
+      const nodeAnchor = getAnchor(nodeToPoint, "top");
+      const pointerAnchor = getAnchor(pointer, "bottom");
+      
+      let pathData = `
+        M ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y}
+        L ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y + defaultPadding}
+        L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y - defaultPadding}
+        L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y}
+      `;
+
+      createPath(svg, pathData);
+
+      // Generic Arrow Head
+      const arrowLine1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      arrowLine1.setAttribute("x1", getPos(nodeAnchor).x);
+      arrowLine1.setAttribute("y1", getPos(nodeAnchor).y);
+      arrowLine1.setAttribute("x2", getPos(nodeAnchor).x + defaultPadding / 2);
+      arrowLine1.setAttribute("y2", getPos(nodeAnchor).y - defaultPadding / 2);
+      arrowLine1.setAttribute("stroke", "black");
+      arrowLine1.setAttribute("stroke-width", "2");
+      svg.appendChild(arrowLine1);
+
+      const arrowLine2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      arrowLine2.setAttribute("x1", getPos(nodeAnchor).x);
+      arrowLine2.setAttribute("y1", getPos(nodeAnchor).y);
+      arrowLine2.setAttribute("x2", getPos(nodeAnchor).x - defaultPadding / 2);
+      arrowLine2.setAttribute("y2", getPos(nodeAnchor).y - defaultPadding / 2);
+      arrowLine2.setAttribute("stroke", "black");
+      arrowLine2.setAttribute("stroke-width", "2");
+      svg.appendChild(arrowLine2);
+    });
+  });
+}
+
+
 function drawTrees() {
   const treeContainers = Array.from(
     document.querySelectorAll(".tree-container"),
@@ -33,7 +182,6 @@ function drawTrees() {
     const treeRect = tree.getBoundingClientRect();
     svg.setAttribute("width", treeRect.width / scale);
     svg.setAttribute("height", treeRect.height / scale);
-    // svg.setAttribute("viewBox", `0 430 ${treeRect.width} ${treeRect.height}`);
 
     const treeRows = Array.from(tree.querySelectorAll(".tree-row"));
 
@@ -44,6 +192,8 @@ function drawTrees() {
       };
     }
 
+    const isBTree = window.bpTree && window.bpTree.type === 'b';
+
     treeRows.forEach((row, rowIndex, rows) => {
       const nodes = Array.from(row.querySelectorAll(".tree-node"));
       const nextNodes =
@@ -52,100 +202,11 @@ function drawTrees() {
           : [];
       const isLeaf = rowIndex === treeRows.length - 1;
 
-      let pointerIndex = 0;
-      nodes.forEach((node, ni) => {
-        const pointers = Array.from(node.querySelectorAll(".tree-pointer"));
-
-        pointers.forEach((pointer, pi) => {
-          const nodeToPoint = nextNodes[pointerIndex];
-          pointerIndex++;
-
-          const isLastPointer = pi === pointers.length - 1;
-          const nextNode = nodes[ni + 1];
-          const shouldPointToNextNode = isLastPointer && isLeaf && nextNode;
-          const shouldPointToNull = isLastPointer && isLeaf && !nextNode;
-
-          const pointerAnchor = getAnchor(
-            pointer,
-            shouldPointToNextNode ? "right" : "bottom",
-          );
-          const nodeAnchor = nodeToPoint
-            ? getAnchor(nodeToPoint, "top")
-            : shouldPointToNextNode
-              ? getAnchor(nextNode, "left")
-              : {
-                  x: pointerAnchor.x,
-                  y: pointerAnchor.y + 15 * scale,
-                };
-
-          // Draw line from pointerAnchor to nodeAnchor using SVG
-          const padding = 15;
-
-          // Create path element for the connection line
-          const path = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "path",
-          );
-
-          let pathData = `
-            M ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y}
-            L ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y + padding}
-            L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y - padding}
-            L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y}
-          `;
-
-          if (shouldPointToNextNode) {
-            pathData = `
-              M ${getPos(pointerAnchor).x} ${getPos(pointerAnchor).y}
-              L ${getPos(nodeAnchor).x} ${getPos(nodeAnchor).y}
-            `;
-          }
-
-          path.setAttribute("d", pathData.trim());
-          path.setAttribute("stroke", "black");
-          path.setAttribute("stroke-width", "2");
-          path.setAttribute("fill", "none");
-          svg.appendChild(path);
-
-          // Create arrow head (two lines forming a V)
-          const arrowLine1 = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line",
-          );
-          arrowLine1.setAttribute("x1", getPos(nodeAnchor).x);
-          arrowLine1.setAttribute("y1", getPos(nodeAnchor).y);
-          arrowLine1.setAttribute("x2", getPos(nodeAnchor).x + padding / 2);
-          arrowLine1.setAttribute("y2", getPos(nodeAnchor).y - padding / 2);
-
-          if (shouldPointToNextNode) {
-            arrowLine1.setAttribute("x2", getPos(nodeAnchor).x - padding / 2);
-            arrowLine1.setAttribute("y2", getPos(nodeAnchor).y + padding / 2);
-          }
-
-          if (shouldPointToNull)
-            arrowLine1.setAttribute("y2", getPos(nodeAnchor).y);
-
-          arrowLine1.setAttribute("stroke", "black");
-          arrowLine1.setAttribute("stroke-width", "2");
-          svg.appendChild(arrowLine1);
-
-          const arrowLine2 = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line",
-          );
-          arrowLine2.setAttribute("x1", getPos(nodeAnchor).x);
-          arrowLine2.setAttribute("y1", getPos(nodeAnchor).y);
-          arrowLine2.setAttribute("x2", getPos(nodeAnchor).x - padding / 2);
-          arrowLine2.setAttribute("y2", getPos(nodeAnchor).y - padding / 2);
-
-          if (shouldPointToNull)
-            arrowLine2.setAttribute("y2", getPos(nodeAnchor).y);
-
-          arrowLine2.setAttribute("stroke", "black");
-          arrowLine2.setAttribute("stroke-width", "2");
-          svg.appendChild(arrowLine2);
-        });
-      });
+      if (isBTree) {
+          drawBLines(nodes, nextNodes, isLeaf, scale, treeRect, getPos, svg);
+      } else {
+          drawBPlusLines(nodes, nextNodes, isLeaf, scale, treeRect, getPos, svg);
+      }
     });
   });
 }

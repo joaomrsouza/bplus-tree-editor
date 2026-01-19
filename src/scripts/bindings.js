@@ -151,8 +151,13 @@ searchBtn.addEventListener("click", async () => {
     color: "manual",
   });
 
-  const gen = search(window.bpTree, value);
-  setAnimateGen(gen);
+  if (window.bpTree.type === 'b') {
+    const gen = searchB(window.bpTree, value);
+    setAnimateGen(gen);
+  } else {
+    const gen = search(window.bpTree, value);
+    setAnimateGen(gen);
+  }
   await animate();
 });
 
@@ -171,8 +176,13 @@ insertBtn.addEventListener("click", async () => {
       result: null,
       color: "manual",
     });
-    const gen = insert(window.bpTree, value);
-    setAnimateGen(gen);
+    if (window.bpTree.type === 'b') {
+        const gen = insertB(window.bpTree, value);
+        setAnimateGen(gen);
+    } else {
+        const gen = insert(window.bpTree, value);
+        setAnimateGen(gen);
+    }
     await animate();
     return;
   }
@@ -196,8 +206,13 @@ removeBtn.addEventListener("click", async () => {
       color: "manual",
     });
 
-    const gen = remove(window.bpTree, getValue(valueInput.value));
-    setAnimateGen(gen);
+    if (window.bpTree.type === 'b') {
+        const gen = removeB(window.bpTree, getValue(valueInput.value));
+        setAnimateGen(gen);
+    } else {
+        const gen = remove(window.bpTree, getValue(valueInput.value));
+        setAnimateGen(gen);
+    }
     await animate();
     return;
   }
@@ -211,7 +226,17 @@ removeBtn.addEventListener("click", async () => {
 const clearBtn = document.querySelector("#clear-btn");
 
 clearBtn.addEventListener("click", async () => {
-  window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+  const treeType = document.querySelector("#tree-type-select").value;
+  if (treeType === 'b' && window.bpTree.type === 'b') {
+       window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
+  } else if (treeType === 'bp' && (!window.bpTree.type || window.bpTree.type !== 'b')) {
+       window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+  } else {
+       // Se o tipo mudou no select mas não clicou em alterar, o clear deve manter o tipo atual?
+       // Ou respeitar o select? Geralmente clear reseta para configurações atuais.
+       if (treeType === 'b')window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
+       else window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+  }
   clearHistory();
   treeToHtml(window.bpTree);
   drawTrees();
@@ -226,7 +251,15 @@ const changeTreeBtn = document.querySelector("#change-tree-btn");
 changeTreeBtn.addEventListener("click", async () => {
   if (!/^\d+$/.test(fanoutInput.value)) return;
   if (Number(fanoutInput.value) < 3) return;
-  window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+  
+  const treeType = document.querySelector("#tree-type-select").value;
+  
+  if (treeType === 'b') {
+      window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
+  } else {
+      window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+  }
+  
   valueInput.type = valueTypeSelect.value;
   clearHistory();
   treeToHtml(window.bpTree);
