@@ -21,11 +21,13 @@ function renderHistory() {
     entryElement.classList.add("history-entry");
 
     if (entry.color !== "none") {
-      entryElement.classList.add({
-        random: "random-mode",
-        manual: "manual-mode",
-        error: "error",
-      }[entry.color]);
+      entryElement.classList.add(
+        {
+          random: "random-mode",
+          manual: "manual-mode",
+          error: "error",
+        }[entry.color],
+      );
     }
 
     if (entry.disabled) entryElement.classList.add("disabled");
@@ -59,25 +61,26 @@ function renderHistory() {
     if (entry.initialTree === null) return;
 
     entryElement.querySelector("button").addEventListener("click", () => {
-      window.bpTree = entry.initialTree;
-      treeToHtml(window.bpTree);
+      window.tree = entry.initialTree;
+      treeToHtml(window.tree);
       drawTrees();
-      historyEntries.forEach((entry, i) => entry.disabled = i >= index);
+      historyEntries.forEach((entry, i) => (entry.disabled = i >= index));
       renderHistory();
     });
   });
 
-  if (lastEnabledEntry) lastEnabledEntry.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (lastEnabledEntry)
+    lastEnabledEntry.scrollIntoView({ behavior: "smooth", block: "center" });
   else historyContainer.scrollTop = 0;
 }
 
 function addHistoryEntry(newEntry) {
-  historyEntries = historyEntries.filter(entry => !entry.disabled);
+  historyEntries = historyEntries.filter((entry) => !entry.disabled);
   historyEntries.push({ ...newEntry, disabled: false });
   historyEntries.push({
     type: "message",
     value: newEntry.value,
-    initialTree: window.bpTree,
+    initialTree: window.tree,
     result: "Árvore atual",
     color: "none",
     disabled: true,
@@ -94,7 +97,7 @@ function updateLastHistoryEntry(newEntry) {
   historyEntries.push({
     type: "message",
     value: newEntry.value,
-    initialTree: window.bpTree,
+    initialTree: window.tree,
     result: "Árvore atual",
     color: "none",
     disabled: true,

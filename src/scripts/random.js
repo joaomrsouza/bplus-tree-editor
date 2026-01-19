@@ -8,22 +8,24 @@ async function randomInsert(qtd, min, max) {
     addHistoryEntry({
       type: "insert",
       value: value,
-      initialTree: window.bpTree,
+      initialTree: window.tree,
       result: null,
       color: "random",
     });
 
-    const isBTree = window.bpTree.type === 'b';
-    const gen = isBTree ? insertB(window.bpTree, value) : insert(window.bpTree, value);
-    
+    const isBTree = window.tree.type === "b";
+    const gen = isBTree
+      ? insertB(window.tree, value)
+      : insert(window.tree, value);
+
     setAnimateGen(gen);
     await animate();
-    while (!hasTheAnimationEnded()) await wait(100);
+    while (!hasTheAnimationEnded()) await wait(1);
   }
 }
 
 async function randomRemove(qtd) {
-  const values = Array.from(window.bpTree.values);
+  const values = Array.from(window.tree.values);
   if (values.length < qtd) return;
 
   for (let i = 0; i < qtd; i++) {
@@ -33,16 +35,18 @@ async function randomRemove(qtd) {
     addHistoryEntry({
       type: "remove",
       value: value,
-      initialTree: window.bpTree,
+      initialTree: window.tree,
       result: null,
       color: "random",
     });
 
-    const isBTree = window.bpTree.type === 'b';
-    const gen = isBTree ? removeB(window.bpTree, value) : remove(window.bpTree, value);
-    
+    const isBTree = window.tree.type === "b";
+    const gen = isBTree
+      ? removeB(window.tree, value)
+      : remove(window.tree, value);
+
     setAnimateGen(gen);
     await animate();
-    while (!hasTheAnimationEnded()) await wait(100);
+    while (!hasTheAnimationEnded()) await wait(1);
   }
 }

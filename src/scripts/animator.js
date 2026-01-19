@@ -18,8 +18,8 @@ function animateStep() {
   const next = currGen.next();
 
   if (!next.done) {
-    window.bpTree = next.value;
-    treeToHtml(window.bpTree);
+    window.tree = next.value;
+    treeToHtml(window.tree);
     drawTrees();
   } else {
     updateLastHistoryEntry({

@@ -3,9 +3,10 @@ const minInput = document.querySelector("#min-input");
 const maxInput = document.querySelector("#max-input");
 const qtdInput = document.querySelector("#qtd-input");
 const manualModeRadio = document.querySelector("#mode-manual");
+const treeSelect = document.querySelector("#tree-type-select");
 
 function getValue(value) {
-  const type = window.bpTree.valueType;
+  const type = window.tree.valueType;
 
   const isNumber = /^-?\d+$/.test(value);
 
@@ -57,7 +58,7 @@ function getRandomInputs(qtdOnly = false) {
   }
 
   if (qtdOnly) {
-    if (inputs.qtd > window.bpTree.values.size) {
+    if (inputs.qtd > window.tree.values.size) {
       addHistoryEntry({
         type: "message",
         value: inputs.qtd,
@@ -146,18 +147,17 @@ searchBtn.addEventListener("click", async () => {
   addHistoryEntry({
     type: "search",
     value: value,
-    initialTree: window.bpTree,
+    initialTree: window.tree,
     result: null,
     color: "manual",
   });
 
-  if (window.bpTree.type === 'b') {
-    const gen = searchB(window.bpTree, value);
-    setAnimateGen(gen);
-  } else {
-    const gen = search(window.bpTree, value);
-    setAnimateGen(gen);
-  }
+  const gen =
+    window.tree.type === "b"
+      ? searchB(window.tree, value)
+      : search(window.tree, value);
+
+  setAnimateGen(gen);
   await animate();
 });
 
@@ -172,17 +172,18 @@ insertBtn.addEventListener("click", async () => {
     addHistoryEntry({
       type: "insert",
       value: value,
-      initialTree: window.bpTree,
+      initialTree: window.tree,
       result: null,
       color: "manual",
     });
-    if (window.bpTree.type === 'b') {
-        const gen = insertB(window.bpTree, value);
-        setAnimateGen(gen);
-    } else {
-        const gen = insert(window.bpTree, value);
-        setAnimateGen(gen);
-    }
+
+    const gen =
+      window.tree.type === "b"
+        ? insertB(window.tree, value)
+        : insert(window.tree, value);
+
+    setAnimateGen(gen);
+
     await animate();
     return;
   }
@@ -201,18 +202,18 @@ removeBtn.addEventListener("click", async () => {
     addHistoryEntry({
       type: "remove",
       value: getValue(valueInput.value),
-      initialTree: window.bpTree,
+      initialTree: window.tree,
       result: null,
       color: "manual",
     });
 
-    if (window.bpTree.type === 'b') {
-        const gen = removeB(window.bpTree, getValue(valueInput.value));
-        setAnimateGen(gen);
-    } else {
-        const gen = remove(window.bpTree, getValue(valueInput.value));
-        setAnimateGen(gen);
-    }
+    const gen =
+      window.tree.type === "b"
+        ? removeB(window.tree, value)
+        : remove(window.tree, value);
+
+    setAnimateGen(gen);
+
     await animate();
     return;
   }
@@ -226,20 +227,17 @@ removeBtn.addEventListener("click", async () => {
 const clearBtn = document.querySelector("#clear-btn");
 
 clearBtn.addEventListener("click", async () => {
-  const treeType = document.querySelector("#tree-type-select").value;
-  if (treeType === 'b' && window.bpTree.type === 'b') {
-       window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
-  } else if (treeType === 'bp' && (!window.bpTree.type || window.bpTree.type !== 'b')) {
-       window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
-  } else {
-       // Se o tipo mudou no select mas não clicou em alterar, o clear deve manter o tipo atual?
-       // Ou respeitar o select? Geralmente clear reseta para configurações atuais.
-       if (treeType === 'b')window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
-       else window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
-  }
+  const treeType = treeSelect.value;
+
+  if (treeType === "b")
+    window.tree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
+  else
+    window.tree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+
   clearHistory();
-  treeToHtml(window.bpTree);
+  treeToHtml(window.tree);
   drawTrees();
+
   panzooms.forEach((panzoom) => panzoom.resetCenter());
 });
 
@@ -251,30 +249,16 @@ const changeTreeBtn = document.querySelector("#change-tree-btn");
 changeTreeBtn.addEventListener("click", async () => {
   if (!/^\d+$/.test(fanoutInput.value)) return;
   if (Number(fanoutInput.value) < 3) return;
-  
-  const treeType = document.querySelector("#tree-type-select").value;
-  
-  if (treeType === 'b') {
-      window.bpTree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
-  } else {
-      window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
-  }
-  
+
+  const treeType = treeSelect.value;
+
+  if (treeType === "b")
+    window.tree = createBTree(Number(fanoutInput.value), valueTypeSelect.value);
+  else
+    window.tree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
+
   valueInput.type = valueTypeSelect.value;
   clearHistory();
-  treeToHtml(window.bpTree);
+  treeToHtml(window.tree);
   drawTrees();
-});
-
-// === Debug ===
-const debugBtn = document.querySelector("#debug-btn");
-const debugPlusBtn = document.querySelector("#debug-plus-btn");
-
-debugBtn.addEventListener("click", async () => {
-  printTreeStructure(window.bpTree);
-  console.log(window.bpTree);
-});
-
-debugPlusBtn.addEventListener("click", async () => {
-  await debugPlus();
 });
