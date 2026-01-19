@@ -36,26 +36,26 @@ function getTreeRowsHtml(rows) {
       (row) => `
     <div class="tree-row" style="margin-bottom: ${row.length * 15 + 50}px;">
       ${row
-          .map(
-            (node) => `
+        .map(
+          (node) => `
         <div class="tree-node ${node.highlight ? "highlight" : ""}">
           <div class="tree-pointer"></div>
             ${node.keys
-                .map(
-                  (key) => `
+              .map(
+                (key) => `
               <div class="tree-kp">
                 <div class="tree-key">${key}</div>
                 <div class="tree-pointer"></div>
               </div>
-            `
-                )
-                .join("")}
+            `,
+              )
+              .join("")}
         </div>
-      `
-          )
-          .join("")}
+      `,
+        )
+        .join("")}
     </div>
-  `
+  `,
     )
     .join("");
 }

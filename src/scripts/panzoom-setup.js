@@ -14,9 +14,9 @@ const panzooms = treeContainers.map((treeContainer) => {
       ...panzoom.getOptions(),
       startX: -treeRect.width / 2 + treeContainerRect.width / 2,
       startY: 0,
-    })
+    });
     panzoom.reset(options);
-  }
+  };
 
   treeContainer.addEventListener("wheel", panzoom.zoomWithWheel);
   treeContainer

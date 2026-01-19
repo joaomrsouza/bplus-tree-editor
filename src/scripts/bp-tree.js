@@ -23,7 +23,7 @@
  * @param {'number' | 'string'} valueType - Tipo de valor (number ou string)
  * @returns {BPlusTree} Nova árvore B+ vazia
  */
-function createTree(fanout = 3, valueType = 'number') {
+function createTree(fanout = 3, valueType = "number") {
   if (fanout < 3) {
     throw new Error("Fanout deve ser pelo menos 3");
   }
@@ -389,7 +389,7 @@ function* insert(tree, value) {
       separatorKey,
       newChild,
       cloned.fanout,
-      cloned
+      cloned,
     );
 
     for (let i = path.length - 2; i >= 0; i--) {
@@ -406,7 +406,7 @@ function* insert(tree, value) {
           splitResult.key,
           splitResult.child,
           cloned.fanout,
-          cloned
+          cloned,
         );
       } else {
         break;
@@ -553,12 +553,14 @@ function* propagateRemovalUp(tree, path, startIndex) {
     parent.highlight = true;
     yield tree;
 
-    const leftSibling = grandparent && parentIndex > 0
-      ? grandparent.children[parentIndex - 1]
-      : null;
-    const rightSibling = grandparent && parentIndex < grandparent.children.length - 1
-      ? grandparent.children[parentIndex + 1]
-      : null;
+    const leftSibling =
+      grandparent && parentIndex > 0
+        ? grandparent.children[parentIndex - 1]
+        : null;
+    const rightSibling =
+      grandparent && parentIndex < grandparent.children.length - 1
+        ? grandparent.children[parentIndex + 1]
+        : null;
 
     if (leftSibling) tree.readCount++;
     if (rightSibling) tree.readCount++;
@@ -601,7 +603,8 @@ function* propagateRemovalUp(tree, path, startIndex) {
       parent.keys.unshift(separatorKey);
 
       // Move a última chave do irmão esquerdo para o pai
-      grandparent.keys[parentIndex - 1] = leftSibling.keys[leftSibling.keys.length - 1];
+      grandparent.keys[parentIndex - 1] =
+        leftSibling.keys[leftSibling.keys.length - 1];
       leftSibling.keys.pop();
 
       // Move o último filho do irmão esquerdo para o nó atual (no início)
@@ -631,7 +634,10 @@ function* propagateRemovalUp(tree, path, startIndex) {
 
           // Divide de forma que ambos tenham pelo menos minKeys
           // O nó esquerdo fica com pelo menos minKeys, o direito com o restante
-          const leftKeysCount = Math.max(minKeys, Math.floor(allKeys.length / 2));
+          const leftKeysCount = Math.max(
+            minKeys,
+            Math.floor(allKeys.length / 2),
+          );
           parent.keys = allKeys.slice(0, leftKeysCount);
           parent.children = allChildren.slice(0, leftKeysCount + 1);
           rightSibling.keys = allKeys.slice(leftKeysCount + 1);
@@ -676,7 +682,10 @@ function* propagateRemovalUp(tree, path, startIndex) {
 
           // Divide de forma que ambos tenham pelo menos minKeys
           // O nó esquerdo fica com pelo menos minKeys, o direito com o restante
-          const leftKeysCount = Math.max(minKeys, Math.floor(allKeys.length / 2));
+          const leftKeysCount = Math.max(
+            minKeys,
+            Math.floor(allKeys.length / 2),
+          );
           leftSibling.keys = allKeys.slice(0, leftKeysCount);
           leftSibling.children = allChildren.slice(0, leftKeysCount + 1);
           parent.keys = allKeys.slice(leftKeysCount + 1);

@@ -32,7 +32,7 @@ function getRandomInputs(qtdOnly = false) {
     qtd: Number(qtdInput.value),
     min: Number(minInput.value),
     max: Number(maxInput.value),
-  }
+  };
 
   if (!/^\d+$/.test(qtdInput.value)) {
     addHistoryEntry({
@@ -43,7 +43,7 @@ function getRandomInputs(qtdOnly = false) {
       color: "error",
     });
     return;
-  };
+  }
 
   if (inputs.qtd < 1) {
     addHistoryEntry({
@@ -62,13 +62,14 @@ function getRandomInputs(qtdOnly = false) {
         type: "message",
         value: inputs.qtd,
         initialTree: null,
-        result: "Quantidade deve ser menor ou igual que a quantidade de valores na árvore",
+        result:
+          "Quantidade deve ser menor ou igual que a quantidade de valores na árvore",
         color: "error",
       });
       return;
     }
-    return { qtd: Number(qtdInput.value) }
-  };
+    return { qtd: Number(qtdInput.value) };
+  }
 
   if (!/^-?\d+$/.test(minInput.value)) {
     addHistoryEntry({
@@ -108,7 +109,8 @@ function getRandomInputs(qtdOnly = false) {
       type: "message",
       value: inputs.qtd,
       initialTree: null,
-      result: "Quantidade não pode ser maior que a diferença entre máximo e mínimo",
+      result:
+        "Quantidade não pode ser maior que a diferença entre máximo e mínimo",
       color: "error",
     });
     return;
@@ -209,11 +211,11 @@ removeBtn.addEventListener("click", async () => {
 const clearBtn = document.querySelector("#clear-btn");
 
 clearBtn.addEventListener("click", async () => {
-  window.bpTree = createTree(3);
+  window.bpTree = createTree(Number(fanoutInput.value), valueTypeSelect.value);
   clearHistory();
   treeToHtml(window.bpTree);
   drawTrees();
-  panzooms.forEach(panzoom => panzoom.resetCenter());
+  panzooms.forEach((panzoom) => panzoom.resetCenter());
 });
 
 // === Change Tree ===

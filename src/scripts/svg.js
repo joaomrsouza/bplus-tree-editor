@@ -14,12 +14,17 @@ function getAnchor(element, position = "bottom") {
 
 function drawTrees() {
   const treeContainers = Array.from(
-    document.querySelectorAll(".tree-container")
+    document.querySelectorAll(".tree-container"),
   );
 
   treeContainers.forEach((treeContainer) => {
     const pan = treeContainer.querySelector(".pan");
-    const scale = Number(pan.style.transform.split(" ").find(p => p.includes("scale"))?.replace(/scale\(|\)/g, "") || 1);
+    const scale = Number(
+      pan.style.transform
+        .split(" ")
+        .find((p) => p.includes("scale"))
+        ?.replace(/scale\(|\)/g, "") || 1,
+    );
     const tree = treeContainer.querySelector(".tree");
     const svg = treeContainer.querySelector(".tree-svg");
     svg.innerHTML = "";
@@ -60,14 +65,18 @@ function drawTrees() {
           const shouldPointToNextNode = isLastPointer && isLeaf && nextNode;
           const shouldPointToNull = isLastPointer && isLeaf && !nextNode;
 
-          const pointerAnchor = getAnchor(pointer, shouldPointToNextNode ? "right" : "bottom");
+          const pointerAnchor = getAnchor(
+            pointer,
+            shouldPointToNextNode ? "right" : "bottom",
+          );
           const nodeAnchor = nodeToPoint
             ? getAnchor(nodeToPoint, "top")
-            : shouldPointToNextNode ? getAnchor(nextNode, "left") : {
-              x: pointerAnchor.x,
-              y: pointerAnchor.y + (15 * scale),
-            };
-
+            : shouldPointToNextNode
+              ? getAnchor(nextNode, "left")
+              : {
+                  x: pointerAnchor.x,
+                  y: pointerAnchor.y + 15 * scale,
+                };
 
           // Draw line from pointerAnchor to nodeAnchor using SVG
           const padding = 15;
@@ -75,7 +84,7 @@ function drawTrees() {
           // Create path element for the connection line
           const path = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "path"
+            "path",
           );
 
           let pathData = `
@@ -101,7 +110,7 @@ function drawTrees() {
           // Create arrow head (two lines forming a V)
           const arrowLine1 = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "line"
+            "line",
           );
           arrowLine1.setAttribute("x1", getPos(nodeAnchor).x);
           arrowLine1.setAttribute("y1", getPos(nodeAnchor).y);
@@ -109,11 +118,12 @@ function drawTrees() {
           arrowLine1.setAttribute("y2", getPos(nodeAnchor).y - padding / 2);
 
           if (shouldPointToNextNode) {
-            arrowLine1.setAttribute("x2", getPos(nodeAnchor).x - padding / 2)
+            arrowLine1.setAttribute("x2", getPos(nodeAnchor).x - padding / 2);
             arrowLine1.setAttribute("y2", getPos(nodeAnchor).y + padding / 2);
-          };
+          }
 
-          if (shouldPointToNull) arrowLine1.setAttribute("y2", getPos(nodeAnchor).y);
+          if (shouldPointToNull)
+            arrowLine1.setAttribute("y2", getPos(nodeAnchor).y);
 
           arrowLine1.setAttribute("stroke", "black");
           arrowLine1.setAttribute("stroke-width", "2");
@@ -121,14 +131,15 @@ function drawTrees() {
 
           const arrowLine2 = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "line"
+            "line",
           );
           arrowLine2.setAttribute("x1", getPos(nodeAnchor).x);
           arrowLine2.setAttribute("y1", getPos(nodeAnchor).y);
           arrowLine2.setAttribute("x2", getPos(nodeAnchor).x - padding / 2);
           arrowLine2.setAttribute("y2", getPos(nodeAnchor).y - padding / 2);
 
-          if (shouldPointToNull) arrowLine2.setAttribute("y2", getPos(nodeAnchor).y);
+          if (shouldPointToNull)
+            arrowLine2.setAttribute("y2", getPos(nodeAnchor).y);
 
           arrowLine2.setAttribute("stroke", "black");
           arrowLine2.setAttribute("stroke-width", "2");

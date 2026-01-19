@@ -1,4 +1,3 @@
-
 const speedInput = document.querySelector("#speed-input");
 const stepByStepRadio = document.querySelector("#step-by-step");
 const disablerContainers = document.querySelectorAll(".disabler-container");
@@ -27,7 +26,9 @@ function animateStep() {
       result: next.value,
     });
     currGen = null;
-    disablerContainers.forEach(container => container.classList.add("hidden"));
+    disablerContainers.forEach((container) =>
+      container.classList.add("hidden"),
+    );
     renderHistory();
   }
 
@@ -46,15 +47,16 @@ async function animate(userDelay = null, skip = false) {
 
   if (next.done) return next.value;
 
-  if (skip || !stepByStepRadio.checked)
-    return await animate(delay, skip);
+  if (skip || !stepByStepRadio.checked) return await animate(delay, skip);
 }
 
 function setAnimateGen(gen) {
   if (currGen !== null) return;
 
   currGen = gen;
-  disablerContainers.forEach(container => container.classList.remove("hidden"));
+  disablerContainers.forEach((container) =>
+    container.classList.remove("hidden"),
+  );
   renderHistory();
 }
 
